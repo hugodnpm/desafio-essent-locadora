@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Client {
+  id                String    @id @default(uuid())
+  name              String    @db.VarChar(255)
+  email             String    @unique @db.VarChar(255)
+  cpf               String    @unique @db.VarChar(255)
+  endereco          String?   @db.VarChar(255)
+  atorFavorito      String?   @db.VarChar(255)
+  diretorfavorito   String?   @db.VarChar(255)
+  categoriaFavorito String?   @db.VarChar(255)
+  role              String?   @db.VarChar(255)
+  createdAt         DateTime  @default(now()) @db.Timestamp(6)
+
+  rentFilms RentFilm[]
+
+@@map("clients")
+}
+
+model Film {
+  id        String   @id @default(uuid())
+  titulo    String   @unique
+  ano       Decimal
+  imagem    String
+  sinopse   String   @db.VarChar(1000)
+  elenco    String?  @db.VarChar(255)
+  categoria String?  @db.VarChar(255)
+  copia     String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
+  rentFilms RentFilm[]
+
+@@map("films")
+}
+
+model User{
+  id         String      @id @default(uuid())
+  name       String      @db.VarChar(255)
+  email      String      @unique @db.VarChar(255)
+  password   String      @db.VarChar(255)
+  createdAt DateTime     @default(now()) @db.Timestamp(6)
+
+  @@map("users")
+}
+
+model RentFilm {
+  id               String     @id @default(uuid())
+  client           Client    @relation(fields: [clientId], references: [id])
+  clientId        String
+  film            Film      @relation(fields: [filmId], references: [id])
+  filmId          String
+  dataRetirada     DateTime   @db.Date
+  dataDevolucao    DateTime   @db.Date
+  horaDevolucao    String
+  valor            Decimal      @db.Decimal(10, 2)
+  createdAt        DateTime   @default(now()) @db.Timestamp(6)
+
+  @@index([clientId])
+  @@index([filmId])
+}
