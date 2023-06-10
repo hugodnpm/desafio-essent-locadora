@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!token && router.pathname !== '/') {
       router.push('/')
     }
-  }, [])
+  }, [token, router])
   return (
     <Layout>
       <Component {...pageProps} />
