@@ -47,7 +47,11 @@ async function getFilms(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function getFilmById(req: NextApiRequest, res: NextApiResponse) {
-  const { titulo } = req.query
+  let { titulo } = req.query
+
+  if (Array.isArray(titulo)) {
+    titulo = titulo[0] // Pega o primeiro elemento do array
+  }
 
   try {
     const film = await prisma.film.findFirst({ where: { titulo } })
@@ -104,8 +108,11 @@ async function updateFilm(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function deleteFilm(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req.query)
-  const { id } = req.query
+  let { id } = req.query
+
+  if (Array.isArray(id)) {
+    id = id[0] // Pega o primeiro elemento do array
+  }
 
   try {
     await prisma.film.delete({ where: { id } })

@@ -43,14 +43,15 @@ async function getClients(req: NextApiRequest, res: NextApiResponse) {
     console.log('aqui', clients)
     res.status(200).json(clients)
   } catch (error) {
-    console.log('aqui', error)
     res.status(500).json({ error: 'Erro ao obter os clientes.' })
   }
 }
 
 export async function getClientById(req: NextApiRequest, res: NextApiResponse) {
-  const { cpf } = req.query
-
+  let { cpf } = req.query
+  if (Array.isArray(cpf)) {
+    cpf = cpf[0] // Pega o primeiro elemento do array
+  }
   try {
     const client = await prisma.client.findUnique({ where: { cpf } })
     res.status(200).json(client)
@@ -122,8 +123,10 @@ async function updateClient(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function deleteClient(req: NextApiRequest, res: NextApiResponse) {
-  const { id } = req.query
-
+  let { id } = req.query
+  if (Array.isArray(id)) {
+    id = id[0] // Pega o primeiro elemento do array
+  }
   try {
     await prisma.client.delete({ where: { id } })
 

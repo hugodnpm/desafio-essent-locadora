@@ -1,19 +1,19 @@
-import Form, {
-  ClientFormsInputs,
-  FilmFormsInputs,
-  RentFormsInputs
-} from 'Component/Form/form'
-import { useEffect, useState } from 'react'
+import Form, { ClientFormsInputs, RentFormsInputs } from 'Component/Form/form'
+import { useState } from 'react'
 import { UseFetchGet } from 'utils/useFechGet'
 import { UseFetchPost } from 'utils/useFechPost'
 import { useRouter } from 'next/router'
 
+interface Client {
+  id: number
+  // outras propriedades
+}
 const RentFilm = () => {
   const router = useRouter()
   const [alertSucess, setAlertSucess] = useState('')
   const [alertError, setAlertError] = useState('')
-  const [dataClient, setDataClient] = useState()
-  const [dataFilm, setDataFilm] = useState()
+  const [dataClient, setDataClient] = useState<Client | null>(null)
+  const [dataFilm, setDataFilm] = useState<Client | null>(null)
 
   const submitClient = async (values: ClientFormsInputs) => {
     await UseFetchGet(
@@ -35,8 +35,8 @@ const RentFilm = () => {
 
   const submitRentFilm = async (values: RentFormsInputs) => {
     const data = {
-      clientId: dataClient.id,
-      filmId: dataFilm.id,
+      clientId: dataClient?.id,
+      filmId: dataFilm?.id,
       dataRetirada: values.dataRetirada,
       dataDevolucao: values.dataDevolucao,
       horaDevolucao: values.horaDevolucao,
@@ -49,7 +49,7 @@ const RentFilm = () => {
       setAlertSucess,
       setAlertError
     )
-    if (rentFilm.ok) {
+    if (rentFilm?.ok) {
       router.push('/app')
     }
   }
@@ -87,8 +87,8 @@ const RentFilm = () => {
         <Form.FormRent
           label='Registro retirada Locação:'
           submit={submitRentFilm}
-          AlertSuccess={alertSucess}
-          AlertError={alertError}
+          alertSucess={alertSucess}
+          alertError={alertError}
           client={dataClient}
           film={dataFilm}
         />

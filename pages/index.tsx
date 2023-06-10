@@ -1,5 +1,5 @@
 import Form from 'Component/Form/form'
-import { LoginFormsInputs } from 'component/form'
+import { LoginFormsInputs } from 'Component/Form/form'
 import { useState } from 'react'
 import { UseFetchGet } from 'utils/useFechGet'
 import { useRouter } from 'next/router'
@@ -16,8 +16,10 @@ export default function Home() {
       setAlertSucess,
       setAlertError
     )
-    localStorage.setItem('tokenVideo', dataToken)
-    router.push('/app')
+    if (dataToken) {
+      localStorage.setItem('tokenVideo', dataToken)
+      router.push('/app')
+    }
   }
   return (
     <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 my-16'>

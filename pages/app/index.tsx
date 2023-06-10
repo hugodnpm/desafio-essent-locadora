@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
 import { UseFetchGet } from 'utils/useFechGet'
 
+interface Cliente {
+  id: string
+  name: string
+  email: string
+  atorFavorito: string
+  diretorfavorito: string
+  categoriaFavorito: string
+}
+
 const AppHome = () => {
   const [alertSucess, setAlertSucess] = useState('')
   const [alertError, setAlertError] = useState('')
-  const [dataClient, setDataClient] = useState()
+  const [dataClient, setDataClient] = useState<Cliente[]>([])
   useEffect(() => {
     const fetchGet = async () => {
       const res = await UseFetchGet(
@@ -40,7 +49,7 @@ const AppHome = () => {
                 </thead>
                 <tbody className='bg-white divide-y dark:divide-gray-700 dark:bg-gray-800'>
                   {dataClient &&
-                    dataClient.map((item) => {
+                    dataClient?.map((item) => {
                       return (
                         <tr
                           key={item.id}

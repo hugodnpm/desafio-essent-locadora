@@ -2,3 +2,7 @@
 NEXT_PUBLIC_API_URL=http://localhost:3000/api/
 DATABASE_URL=
 JWT_SECRET=
+
+NEXT_PUBLIC_API_URL=http://localhost:3000/api/
+DATABASE_URL="postgresql://postgres:123456@localhost:5432/postgres?schema=public"
+JWT_SECRET=4863c869aed06700480626b09870fa315fa094b5
