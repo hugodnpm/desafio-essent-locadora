@@ -40,7 +40,7 @@ export default async function handler(
 async function getClients(req: NextApiRequest, res: NextApiResponse) {
   try {
     const clients = await prisma.client.findMany()
-    console.log('aqui', clients)
+
     res.status(200).json(clients)
   } catch (error) {
     res.status(500).json({ error: 'Erro ao obter os clientes.' })

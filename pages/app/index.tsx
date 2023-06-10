@@ -25,7 +25,7 @@ const AppHome = () => {
     }
     fetchGet()
   }, [])
-  console.log(dataClient)
+
   return (
     <>
       <main className='h-full overflow-y-auto'>

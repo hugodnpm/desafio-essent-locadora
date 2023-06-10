@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const UseFetchDelete = async (
   url: string,
   setData: any,
@@ -6,24 +8,22 @@ export const UseFetchDelete = async (
 ) => {
   let baseUrl = process.env.NEXT_PUBLIC_API_URL
   try {
-    const response = await fetch(baseUrl + url, {
-      method: 'DELETE',
+    const response = await axios.delete(baseUrl + url, {
       headers: {
         'Content-Type': 'application/json'
       }
     })
 
-    if (response.ok) {
-      const data = await response.json()
-
+    if (response.status === 200) {
+      const data = response.data
       setData(data)
-
       setAlertSucess('Usuário deletado com sucesso!')
     } else {
       // Exibir alerta de erro
-      const errorResponse = await response.json()
+      const errorResponse = response.data
       setAlertError(errorResponse.error)
     }
+
     return response
   } catch (error) {
     setAlertError(

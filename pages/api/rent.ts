@@ -23,7 +23,6 @@ export default async function handler(
   }*/
 
   if (req.method === 'POST') {
-    console.log('passou')
     return createRentFilm(req, res)
   }
   /*
@@ -82,7 +81,6 @@ async function createRentFilm(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(201).json(film)
   } catch (error) {
-    console.log(error)
     res.status(500).json({ error: 'Erro ao criar o cliente.' })
   }
 }

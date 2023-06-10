@@ -49,7 +49,7 @@ const RentFilm = () => {
       setAlertSucess,
       setAlertError
     )
-    if (rentFilm?.ok) {
+    if (rentFilm?.status) {
       router.push('/app')
     }
   }

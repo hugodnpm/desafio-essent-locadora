@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const UseFetchPut = async (
   url: string,
   data: any,
@@ -6,26 +8,22 @@ export const UseFetchPut = async (
 ) => {
   let baseUrl = process.env.NEXT_PUBLIC_API_URL
   try {
-    const response = await fetch(baseUrl + url, {
-      method: 'PUT',
+    const response = await axios.put(baseUrl + url, data, {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+      }
     })
 
-    if (response.ok) {
+    if (response.status === 200) {
       setAlertSucess('Usuário alterado com sucesso!')
       return response
     } else {
       // Exibir alerta de erro
-      const errorResponse = await response.json()
-
+      const errorResponse = response.data
       setAlertError(errorResponse.error)
     }
   } catch (error) {
     // Exibir alerta de erro de rede
-    console.log('error', error)
     setAlertError(
       'Erro de rede. Por favor, verifique sua conexão e tente novamente.'
     )
